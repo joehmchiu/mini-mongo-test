@@ -9,20 +9,21 @@ jobs:
       pwd
       echo '$(Agent.BuildDirectory)'
       echo '$(System.DefaultWorkingDirectory)'
+      rm -f /tmp/test-result.json
     displayName: Display the file structure
   - script: |
       cd './mini-crud'
-      ./mini-tester.py create
+      ./mini-tester.py create crud
     displayName: Create a record via Mongo API
   - script: |
       cd './mini-crud'
-      ./mini-tester.py read
+      ./mini-tester.py read crud
     displayName: Read the new record
   - script: |
       cd './mini-crud'
-      ./mini-tester.py update
+      ./mini-tester.py update crud
     displayName: Update the new record
   - script: |
       cd './mini-crud'
-      ./mini-tester.py delete
+      ./mini-tester.py delete crud
     displayName: Delete the created record
