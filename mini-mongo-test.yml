@@ -47,9 +47,9 @@ stages:
         ./mini-tester.py delete crud
       displayName: Delete the created record
 - stage: MiniTest2
-  displayName: CRUD Loading Test
+  displayName: CRUD Load Testing
   jobs:
-  - job: LoadingTest
+  - job: LoadTesting
     pool: AZP-Pool
     steps:
     - script: |
@@ -61,21 +61,21 @@ stages:
     - ${{ each t in parameters.tests }}:
       - script: |
           cd './mini-crud'
-          ./mini-tester.py create
+          ./mini-tester.py create load
         displayName: ${{t}}. Create a record via Mongo API
         failOnStderr: true
       - script: |
           cd './mini-crud'
-          ./mini-tester.py read
+          ./mini-tester.py read load
         displayName: ${{t}}. Read the new record
         failOnStderr: true
       - script: |
           cd './mini-crud'
-          ./mini-tester.py update
+          ./mini-tester.py update load
         displayName: ${{t}}. Update the new record
         failOnStderr: true
       - script: |
           cd './mini-crud'
-          ./mini-tester.py delete
+          ./mini-tester.py delete load
         displayName: ${{t}}. Delete the created record
         failOnStderr: true      
