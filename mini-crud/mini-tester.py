@@ -33,8 +33,9 @@ def ok(j):
     return h["ok"]
 
 def mid():
+    mf = "/tmp/mini-id"
     try:
-        res = ret("cat /tmp/mini-id")
+        res = ret("[ -e %s ] || touch %s; cat %s" % (mf, mf))
         return res
     except:
         return " unknown"
