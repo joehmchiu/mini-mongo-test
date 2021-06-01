@@ -9,6 +9,10 @@ def ret(cmd):
     return res
 
 mode = sys.argv[1]
+test = sys.argv[2]
+if not mode: mode = 'read'
+if not test: test = 'none'
+
 api = ret("ssh mac 'cat /tmp/api'").rstrip()
 jsonfile = "/tmp/test-result.json"
 
@@ -18,7 +22,8 @@ def dumps(j):
 def ok(j):
     global mode
     h = {}
-    h["test"] = mode
+    h["mode"] = mode
+    h["test"] = test
     try:
         try: h["id"] = j["id"]
         except: h["id"] = j["_id"]
