@@ -35,10 +35,10 @@ def ok(j):
 def mid():
     mf = "/tmp/mini-id"
     try:
-        res = ret("[ -e %s ] || touch %s; cat %s" % (mf, mf))
-        return res
+        res = ret("[ -e %s ] || touch %s; cat %s" % (mf, mf, mf))
     except:
-        return " unknown"
+        res = " unknown"
+    return res
 
 def show():
     cmd = "curl -s " + api
