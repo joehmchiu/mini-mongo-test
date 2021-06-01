@@ -1,10 +1,26 @@
 # devops: hello world
+parameters:
+- name: tests
+  type: object
+  default: 
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
 
 stages:
-- stage: Test1
-  displayName: CRUD Tests
+- stage: MiniTest1
+  displayName: CRUD Unit Test
   jobs:
-  - job: Linux
+  - job: Mini Mongo API Unit Tests
     pool: AZP-Pool
     steps:
     - script: |
@@ -30,3 +46,36 @@ stages:
         cd './mini-crud'
         ./mini-tester.py delete crud
       displayName: Delete the created record
+- stage: MiniTest2
+  displayName: CRUD Loading Test
+  jobs:
+  - job: Mini Mongo API CRUD Tests
+    pool: AZP-Pool
+    steps:
+    - script: |
+        dir
+        pwd
+        echo '$(Agent.BuildDirectory)'
+        echo '$(System.DefaultWorkingDirectory)'
+      displayName: Display the file structure
+    - ${{ each t in parameters.tests }}:
+      - script: |
+          cd './mini-crud'
+          ./mini-tester.py create
+        displayName: ${{t}}. Create a record via Mongo API
+        failOnStderr: true
+      - script: |
+          cd './mini-crud'
+          ./mini-tester.py read
+        displayName: ${{t}}. Read the new record
+        failOnStderr: true
+      - script: |
+          cd './mini-crud'
+          ./mini-tester.py update
+        displayName: ${{t}}. Update the new record
+        failOnStderr: true
+      - script: |
+          cd './mini-crud'
+          ./mini-tester.py delete
+        displayName: ${{t}}. Delete the created record
+        failOnStderr: true      
