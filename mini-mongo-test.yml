@@ -1,0 +1,28 @@
+# devops: hello world
+
+jobs:
+- job: Linux
+  pool: AZP-Pool
+  steps:
+  - script: |
+      dir
+      pwd
+      echo '$(Agent.BuildDirectory)'
+      echo '$(System.DefaultWorkingDirectory)'
+    displayName: Display the file structure
+  - script: |
+      cd './mini-crud'
+      ./mini-tester.py create
+    displayName: Create a record via Mongo API
+  - script: |
+      cd './mini-crud'
+      ./mini-tester.py read
+    displayName: Read the new record
+  - script: |
+      cd './mini-crud'
+      ./mini-tester.py update
+    displayName: Update the new record
+  - script: |
+      cd './mini-crud'
+      ./mini-tester.py delete
+    displayName: Delete the created record
