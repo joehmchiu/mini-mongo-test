@@ -9,7 +9,7 @@ def ret(cmd):
     return res
 
 mode = sys.argv[1]
-api = ret("cat /tmp/api").rstrip()
+api = ret("ssh mac 'cat /tmp/api'").rstrip()
 jsonfile = "/tmp/test-result.json"
 
 def dumps(j):
