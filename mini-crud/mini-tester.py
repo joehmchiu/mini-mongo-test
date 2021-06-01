@@ -72,8 +72,6 @@ def delete():
     j = json.loads(res)
     dumps(j)
     ok(j)
-    # if j["result"] != "ID not exists":
-    #     os.unlink("/tmp/mini-id")
 
 if mode == 'all':
     show()
