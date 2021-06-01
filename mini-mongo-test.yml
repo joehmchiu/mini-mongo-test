@@ -1,29 +1,32 @@
 # devops: hello world
 
-jobs:
-- job: Linux
-  pool: AZP-Pool
-  steps:
-  - script: |
-      dir
-      pwd
-      echo '$(Agent.BuildDirectory)'
-      echo '$(System.DefaultWorkingDirectory)'
-      rm -f /tmp/test-result.json
-    displayName: Display the file structure
-  - script: |
-      cd './mini-crud'
-      ./mini-tester.py create crud
-    displayName: Create a record via Mongo API
-  - script: |
-      cd './mini-crud'
-      ./mini-tester.py read crud
-    displayName: Read the new record
-  - script: |
-      cd './mini-crud'
-      ./mini-tester.py update crud
-    displayName: Update the new record
-  - script: |
-      cd './mini-crud'
-      ./mini-tester.py delete crud
-    displayName: Delete the created record
+stages:
+- stage: Test1
+  displayName: CRUD Tests
+  jobs:
+  - job: Linux
+    pool: AZP-Pool
+    steps:
+    - script: |
+        dir
+        pwd
+        echo '$(Agent.BuildDirectory)'
+        echo '$(System.DefaultWorkingDirectory)'
+        rm -f /tmp/test-result.json
+      displayName: Display the file structure
+    - script: |
+        cd './mini-crud'
+        ./mini-tester.py create crud
+      displayName: Create a record via Mongo API
+    - script: |
+        cd './mini-crud'
+        ./mini-tester.py read crud
+      displayName: Read the new record
+    - script: |
+        cd './mini-crud'
+        ./mini-tester.py update crud
+      displayName: Update the new record
+    - script: |
+        cd './mini-crud'
+        ./mini-tester.py delete crud
+      displayName: Delete the created record
