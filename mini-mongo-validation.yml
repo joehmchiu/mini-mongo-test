@@ -16,11 +16,21 @@
     #         msg: "{{item | from_json}}"
     #       with_lines: cat "{{jfile}}"
 
-    - name: append json
+    - name: append json as list
       set_fact:
         array: "{{ array + [item | from_json] }}"
       with_lines: cat "{{jfile}}"
 
-    - name: list array
-      debug:
-        msg: "{{array}}"
+      #     - name: list array
+      #       debug:
+      #         msg: "{{array}}"
+    
+      # - assert: { that: "{{ item.ok }} is true" }
+      # with_items: "{{array}}"
+    - name: use quiet to avoid verbose output
+      assert:
+        that:
+          - "{{ item.ok }} is true"
+            # quiet: true
+      with_items: "{{array}}"
+
