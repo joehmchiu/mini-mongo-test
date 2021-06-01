@@ -46,36 +46,3 @@ stages:
         cd './mini-crud'
         ./mini-tester.py delete crud
       displayName: Delete the created record
-- stage: MiniTest2
-  displayName: CRUD Loading Test
-  jobs:
-  - job: Mini Mongo API CRUD Tests
-    pool: AZP-Pool
-    steps:
-    - script: |
-        dir
-        pwd
-        echo '$(Agent.BuildDirectory)'
-        echo '$(System.DefaultWorkingDirectory)'
-      displayName: Display the file structure
-    - ${{ each t in parameters.tests }}:
-      - script: |
-          cd './mini-crud'
-          ./mini-tester.py create
-        displayName: ${{t}}. Create a record via Mongo API
-        failOnStderr: true
-      - script: |
-          cd './mini-crud'
-          ./mini-tester.py read
-        displayName: ${{t}}. Read the new record
-        failOnStderr: true
-      - script: |
-          cd './mini-crud'
-          ./mini-tester.py update
-        displayName: ${{t}}. Update the new record
-        failOnStderr: true
-      - script: |
-          cd './mini-crud'
-          ./mini-tester.py delete
-        displayName: ${{t}}. Delete the created record
-        failOnStderr: true      
