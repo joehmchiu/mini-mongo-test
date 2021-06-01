@@ -1,0 +1,26 @@
+---
+- hosts: localhost
+  vars:
+    jfile: /tmp/test-result.json
+    tests: "{{ lookup('file', '/tmp/test-result.json') }}"
+    array: []
+  tasks:
+    #     - name: display items
+    #       debug:
+    #         # msg: "{{item.mode}} - {{item.test}}"
+    #         msg: "{{item}}"
+    #       with_items: tests
+    # 
+    #     - name: display lines
+    #       debug:
+    #         msg: "{{item | from_json}}"
+    #       with_lines: cat "{{jfile}}"
+
+    - name: append json
+      set_fact:
+        array: "{{ array + [item | from_json] }}"
+      with_lines: cat "{{jfile}}"
+
+    - name: list array
+      debug:
+        msg: "{{array}}"
